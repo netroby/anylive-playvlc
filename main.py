@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os
+import subprocess
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -14,6 +14,7 @@ class MyWindow(Gtk.Window):
         self.add(self.box)
 
         self.entry = Gtk.Entry()
+        self.entry.connect("activate", self.on_button_clicked)
         self.box.pack_start(self.entry, True, True, 0)
 
         self.button = Gtk.Button(label="Play")
@@ -24,9 +25,9 @@ class MyWindow(Gtk.Window):
     def on_button_clicked(self, widget):
         url = self.entry.get_text()
         print(url)
-        execCmd = "ykdl -p vlc " + url
+        execCmd = ["ykdl", "-p", "vlc", url]
         print(execCmd)
-        os.system(execCmd) 
+        subprocess.Popen(execCmd)
 
 
 win = MyWindow()
